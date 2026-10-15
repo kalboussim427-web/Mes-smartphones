@@ -11,6 +11,7 @@
                         <th>Prix</th>
                         <th>Date de Sortie</th>
                         <th>OS</th>
+                        <th>Marque</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -21,6 +22,7 @@
                         <td>{{ smartphone.prixSmartphone }} DT</td>
                         <td>{{ smartphone.dateSortie | date:'yyyy-MM-dd' }}</td>
                         <td>{{ smartphone.osSmartphone }}</td>
+                        <td>{{ smartphone.marque.nomMarque}}</td>
                         <td>
                             <button class ="btn btn-danger btn-sm" (click)="supprimerSmartphone(smartphone)">Supprimer</button>
                             <a class="btn btn-success" btn-sm ms-2 [routerLink]="['/updateSmartphone', smartphone.idSmartphone]">Modifier</a> 
