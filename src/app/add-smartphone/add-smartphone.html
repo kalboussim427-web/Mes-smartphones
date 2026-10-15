@@ -1,0 +1,33 @@
+<div class="container mt-4">
+    <div class="card shadow">
+        <div class="card-body">
+            <h2>Ajouter un Smartphone</h2>
+            <hr>
+            <form>
+                <div class="mb-3">
+                    <label class="form-label">ID Smartphone</label>
+                    <input type="number" [(ngModel)]="NewSmartphone.idSmartphone" name="idSmartphone" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Modèle</label>
+                    <input type="text" class="form-control" [(ngModel)]="NewSmartphone.nomSmartphone" name="nomSmartphone">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Prix</label>
+                    <input type="number" class="form-control" [(ngModel)]="NewSmartphone.prixSmartphone" name="prixSmartphone">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Date de Sortie</label>
+                    <input type="date" class="form-control" [(ngModel)]="NewSmartphone.dateSortie" name="dateSortie">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">OS</label>
+                    <input type="text" class="form-control" [(ngModel)]="NewSmartphone.osSmartphone" name="osSmartphone">
+                </div>
+                <div class="mt-3">
+                    <button type="submit" class="btn btn-success" (click)="addSmartphone()">Ajouter</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
