@@ -15,16 +15,23 @@ export class SmartphonesComponent implements OnInit {
   smartphones! : Smartphone[];
 
   constructor(private smartphoneService: SmartphoneService) {
-    this.smartphones = this.smartphoneService.listeSmartphones();
   }
 
   ngOnInit(): void {
+    this.chargerSmartphones();
+  }
+  chargerSmartphones(){
+    this.smartphoneService.listeSmartphones().subscribe(prods => {
+      this.smartphones = prods;
+    });
   }
   supprimerSmartphone(smartphone: Smartphone) {
     let conf = confirm("Etes-vous sûr ?");
     if (conf) {
-      this.smartphoneService.supprimerSmartphone(smartphone);
-      this.smartphones = this.smartphoneService.listeSmartphones();
+      this.smartphoneService.supprimerSmartphone(smartphone).subscribe(() => {
+        console.log("Smartphone supprimé");
+        this.chargerSmartphones();
+      });
     }
   }
 }

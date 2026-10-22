@@ -22,7 +22,9 @@ export class AddSmartphoneComponent implements OnInit {
   constructor(private smartphoneService: SmartphoneService, private router: Router) {}
 
   ngOnInit(): void {
-    this.marques = this.smartphoneService.listeMarques();
+    this.smartphoneService.listeMarques().subscribe(marqs =>{
+      this.marques = marqs;
+    });
   }
 
   addSmartphone() {

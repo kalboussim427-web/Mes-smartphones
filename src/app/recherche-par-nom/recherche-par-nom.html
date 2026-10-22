@@ -1,0 +1,43 @@
+<div class="container mt-3">
+
+  <form class="form-inline mb-4">
+    <div class="form-group mx-sm-3 mb-2 mt-2">
+      <label>Nom Smartphone en tapant</label>
+      <input #nom [(ngModel)]="searchTerm" name="searchTerm" class="form-control" placeholder="Tapez pour filtrer...">
+    </div>
+  </form>
+
+  <div class="card shadow mb-4">
+    <div class="card-body">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Nom</th>
+            <th>Prix</th>
+            <th>Date Création</th>
+            <th>Os</th>
+            <th>Marque</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (smartphone of smartphones | searchFilter: searchTerm; track smartphone.idSmartphone) {
+            <tr>
+              <td>{{smartphone.idSmartphone}}</td>
+              <td>{{smartphone.nomSmartphone}}</td>
+              <td>{{smartphone.prixSmartphone}}</td>
+              <td>{{smartphone.dateSortie | date:'dd/MM/yyyy'}}</td>
+              <td>{{smartphone.osSmartphone}}</td>
+              @if (smartphone.marque) {
+                <td>{{smartphone.marque.nomMarque}}</td>
+              } @else {
+                <td>PAS DE MARQUE</td>
+              }
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>

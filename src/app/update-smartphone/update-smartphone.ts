@@ -26,17 +26,22 @@ export class UpdateSmartphoneComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.marques = this.smartphoneService.listeMarques();
+    this.smartphoneService.listeMarques().subscribe(marqs =>{
+      this.marques=marqs;
+    }
 
+    )
     let id = this.activateRoute.snapshot.params['id'];
-    this.currentSmartphone = this.smartphoneService.consulterSmartphone(id);
+    this.smartphoneService.consulterSmartphone(id).subscribe(prods => {
+      this.currentSmartphone = prods;
+      this.updateMarqueId = this.currentSmartphone.marque.idMarque;
 
-    this.updateMarqueId = this.currentSmartphone.marque.idMarque;
+    });
   }
   updateSmartphone() {
-    this.currentSmartphone.marque = this.smartphoneService.consulterMarque(this.updateMarqueId);
-
-    this.smartphoneService.updateSmartphone(this.currentSmartphone);
-    this.router.navigate(['smartphones']);
+    this.smartphoneService.updateSmartphone(this.currentSmartphone).subscribe(() => {
+      this.router.navigate(['smartphones']);
+    });
+    
   }
 }

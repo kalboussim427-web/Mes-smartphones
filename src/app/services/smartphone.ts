@@ -1,6 +1,8 @@
 import { Smartphone } from '../model/smartphones.model';
 import { Injectable } from '@angular/core';
 import { Marque } from '../model/marque.model';
+import { of, Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable(
     {providedIn: 'root'}
@@ -8,8 +10,9 @@ import { Marque } from '../model/marque.model';
 export class SmartphoneService {
     smartphones: Smartphone[] ;
     marques : Marque[];
+    apiURL: string = '/smartphones/api';
 
-    constructor() {
+    constructor(private http: HttpClient) {
         this.marques=[
             {idMarque: 1, nomMarque: "Samsung"},
             {idMarque: 2, nomMarque: "Apple"},
@@ -28,31 +31,38 @@ export class SmartphoneService {
             {idSmartphone: 6, nomSmartphone: 'OnePlus 15', prixSmartphone: 2400, dateSortie: new Date('2025-10-27'), osSmartphone: 'OxygenOS', marque: {idMarque:6, nomMarque: "OnePlus" }},
         ];
     }
-    listeMarques(): Marque[]{
-        return this.marques;
+    listeMarques():Observable<Marque[]>{
+        return this.http.get<Marque[]>(this.apiURL + "/marque");
     }
     consulterMarque(id: number): Marque {
         return this.marques.find(m => m.idMarque== id)!;
     }
-    listeSmartphones(): Smartphone[] {
-        return this.smartphones ;
+    listeSmartphones(): Observable<Smartphone[]> {
+        return this.http.get<Smartphone[]>(this.apiURL) ;
     }
     ajouterSmartphone(smartphone: Smartphone) {
         this.smartphones.push(smartphone) ;
     }
     supprimerSmartphone(smartphone: Smartphone) {
-        const index = this.smartphones.indexOf(smartphone, 0);
-        if (index > -1) {
-            this.smartphones.splice(index, 1);
+        const url = '${this.apiURL}/${smartphone.idSmartphone}';
+        return this.http.delete(url);
         }
+    
+    consulterSmartphone(id: number): Observable<Smartphone> {
+        const url = '${this.apiURL}/${id}';
+        return this.http.get<Smartphone>(url);   
     }
-    consulterSmartphone(id: number): Smartphone {
-        return this.smartphones.find(p => p.idSmartphone == id)!;   
+    updateSmartphone(prod: Smartphone):Observable<Smartphone> {
+        return this.http.put<Smartphone>(this.apiURL, prod);
+        
     }
-    updateSmartphone(smartphone: Smartphone) {
-        const index = this.smartphones.findIndex(p => p.idSmartphone == smartphone.idSmartphone);
-        if (index !== -1) {
-            this.smartphones[index] = smartphone;
-        }
+    
+    rechercheParMarque(idMarque: number):Observable <Smartphone[]> {
+        const url ='${this.apiURL}/smarphonesByMarque/${idMarque}';
+        return this.http.get<Smartphone[]>(url);
+    }
+    rechercherParNom(nom: string): Observable<Smartphone[]>{
+        const url = '${this.apiURL}/smartphonesByName/${nom}';
+        return this.http.get<Smartphone[]>(url);
     }
 }
